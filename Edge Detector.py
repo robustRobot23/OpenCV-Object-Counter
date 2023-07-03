@@ -2,53 +2,51 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-import contourAnalysis
+import contourAnalysis as ca
 
-image = cv2.imread('Flash\\flash1.jpg')
+image = cv2.imread('Flash\\flash4.jpg')
 
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
+# plt.imshow(gray, cmap='gray')
 blur = cv2.GaussianBlur(gray, (11, 11), 0)
 canny = cv2.Canny(blur, 0, 150, 3)
-# plt.imshow(canny)
+# plt.imshow(canny, cmap='gray')
 # canny1 = cv2.Canny(blur, 90, 300)
 # canny2 = cv2.Canny(blur, 50, 200)
 # canny3 = cv2.Canny(blur, 80, 250)
 # canny4 = cv2.Canny(blur, 100, 230)
 
 # threshold = cv2.adaptiveThreshold(gray ,100 ,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,11,2)
-# plt.imshow(threshold)
+# plt.imshow(threshold, cmap='gray')
 dilated = cv2.dilate(canny, (1, 1), iterations=1)
-# plt.imshow(dilated)
+# plt.imshow(dilated, cmap='gray')
 
 (cnt, hierarchy) = cv2.findContours(dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
 
 
-threshold_area = 1000
-min_threshold_perimeter = 1e2
-max_threshold_perimeter = 1e6
-max_num_vertices = 200
+
 
 filtered_cnt = []
+
 for contour in cnt:
-    area = cv2.contourArea(contour)
     
-    perimeter = cv2.arcLength(contour, True)
-    epsilon = 0.01 * cv2.arcLength(contour, True)
-    approx = cv2.approxPolyDP(contour, epsilon, True)
+        
 
-    # Get the number of vertices of the polygon
-    num_vertices = len(approx)
-    # if (len(filtered_cnt) == 1):
-    #     contourAnalysis.printValues(contour)
-    #     cv2.drawContours(rgb, contour, -1, (0, 255, 0), 2)
+    # filtered_cnt.append(contour)
+    appendContour = ca.checkContour(contour)
+    if appendContour is not None:
+        filtered_cnt.append(appendContour)
 
-    filtered_cnt.append(contour)
+        # if len(filtered_cnt) == 8:
+            # ca.printValues(contour)
+            # ca.findMax(contour)
+        
+            # cv2.drawContours(rgb, contour, -1, (0, 255, 0), 2)
+            # cv2.drawMarker(rgb, [600, 1300], 0, markerType = 1)
 
-    # if area > threshold_area and perimeter > min_threshold_perimeter and perimeter < max_threshold_perimeter and num_vertices <= max_num_vertices:
-        # filtered_cnt.append(contour)
 
 # Split touching contours apart using contour approximation
 # rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
