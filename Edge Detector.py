@@ -10,7 +10,7 @@ gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 blur = cv2.GaussianBlur(gray, (11, 11), 0)
 canny = cv2.Canny(blur, 0, 150, 3)
-plt.imshow(canny)
+# plt.imshow(canny)
 # canny1 = cv2.Canny(blur, 90, 300)
 # canny2 = cv2.Canny(blur, 50, 200)
 # canny3 = cv2.Canny(blur, 80, 250)
@@ -61,7 +61,7 @@ for contour in cnt:
 #     cv2.drawContours(rgb, [approx], -1, (0, 255, 0), 2)
 
 
-# cv2.drawContours(rgb, filtered_cnt, -1, (0, 255, 0), 2)
+cv2.drawContours(rgb, filtered_cnt, -1, (0, 255, 0), 2)
 
 print("Edges in the image : ", len(filtered_cnt))
 
@@ -109,5 +109,5 @@ print("Edges in the image : ", len(filtered_cnt))
 # plt.axis("off")
 
 
-# plt.imshow(rgb)
+plt.imshow(rgb)
 plt.show()
