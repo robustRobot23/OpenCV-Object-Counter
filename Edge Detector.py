@@ -22,7 +22,9 @@ canny = cv2.Canny(blur, 0, 150, 3)
 dilated = cv2.dilate(canny, (1, 1), iterations=1)
 # plt.imshow(dilated, cmap='gray')
 
-(cnt, hierarchy) = cv2.findContours(dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+(cnt, hierarchy) = cv2.findContours(dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_TC89_KCOS)
+# (cnt, hierarchy) = cv2.findContours(dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
 rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
 
